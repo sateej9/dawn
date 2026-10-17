@@ -28,7 +28,6 @@ body {
     radial-gradient(circle at bottom right, rgba(200, 88, 61, 0.17), transparent 35%),
     linear-gradient(135deg, #f7efe4 0%, #f3f8f2 100%);
   color: var(--ink);
-  overflow-x: hidden;
 }
 
 body::before {
@@ -448,12 +447,54 @@ h1 span {
   pointer-events: none;
 }
 
-.video-wrap video {
+.video-wrap video,
+.video-wrap iframe,
+.youtube-video-link {
   display: block;
   width: 100%;
   height: clamp(300px, 42vw, 560px);
   object-fit: cover;
   background: #0b2d37;
+  border: 0;
+}
+
+.youtube-video-link {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  box-shadow: 0 26px 45px rgba(15, 93, 114, 0.12);
+}
+
+.youtube-video-link img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.05) contrast(1.02);
+}
+
+.youtube-video-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6, 13, 17, 0.05), rgba(6, 13, 17, 0.4));
+}
+
+.play-badge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  color: #ff3d3d;
+  border-radius: 50%;
+  font-size: 2rem;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2);
 }
 
 .video-copy {
@@ -546,11 +587,14 @@ h1 span {
 }
 
 .media-item img,
-.media-item video {
+.media-item video,
+.media-item iframe,
+.media-item .youtube-video-link {
   width: 100%;
   height: 240px;
   object-fit: cover;
   display: block;
+  border: 0;
 }
 
 .video-item {
@@ -565,6 +609,7 @@ h1 span {
   position: absolute;
   left: 16px;
   bottom: 16px;
+  z-index: 1;
   background: rgba(255,255,255,0.8);
   padding: 8px 12px;
   border-radius: 999px;
@@ -657,14 +702,9 @@ h1 span {
 }
 
 @media (max-width: 900px) {
-  .page-shell {
-    width: min(94vw, 720px);
-  }
-
   .hero {
     grid-template-columns: 1fr;
     padding-top: 10px;
-    gap: 24px;
   }
 
   .hero-copy {
@@ -675,21 +715,12 @@ h1 span {
   .science-grid,
   .gallery-grid,
   .media-grid,
-  .achievement,
-  .video-showcase {
+  .achievement {
     grid-template-columns: 1fr;
   }
 
   .achievement {
     gap: 18px;
-  }
-
-  .video-showcase {
-    gap: 18px;
-  }
-
-  .video-copy {
-    text-align: center;
   }
 }
 
@@ -698,144 +729,30 @@ h1 span {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
-    padding: 14px 4px 18px;
-  }
-
-  .brand {
-    font-size: 0.8rem;
   }
 
   .nav {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    font-size: 0.8rem;
-  }
-
-  .nav a {
-    padding: 8px 10px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.35);
-  }
-
-  .section-card {
-    padding: 20px 14px;
-    border-radius: 22px;
+    gap: 12px;
+    font-size: 0.92rem;
   }
 
   h1 {
     letter-spacing: -0.05em;
   }
 
-  .lead {
-    font-size: 0.98rem;
-    line-height: 1.7;
-  }
-
-  .hero-actions {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .btn {
-    width: 100%;
-    min-height: 48px;
-  }
-
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-    margin-top: 22px;
-  }
-
-  .stats-row div {
-    min-width: 0;
-    padding: 12px 8px;
-    text-align: center;
-  }
-
-  .stats-row strong {
-    font-size: 1.05rem;
-  }
-
-  .stats-row span {
-    font-size: 0.7rem;
-  }
-
   .hero-art {
-    min-height: 420px;
+    min-height: 480px;
   }
 
   .floating-badge {
     right: 18px;
     top: 22px;
     font-size: 0.78rem;
-    padding: 9px 14px;
   }
 
-  .mini-badge {
-    left: 18px;
+  .topi-illustration {
+    left: 12px;
     bottom: 18px;
-    padding: 10px 12px;
-  }
-
-  .mini-badge strong {
-    font-size: 0.9rem;
-  }
-
-  .story-panel,
-  .science-card {
-    padding: 18px 16px;
-  }
-
-  .video-wrap video {
-    height: 260px;
-  }
-
-  .media-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .media-item img,
-  .media-item video {
-    height: 180px;
-  }
-
-  .gallery-item {
-    min-height: 180px;
-  }
-
-  .gallery-item img {
-    min-height: 180px;
-  }
-
-  .footer {
-    font-size: 0.9rem;
-    padding-top: 16px;
-  }
-}
-
-@media (max-width: 420px) {
-  .page-shell {
-    width: min(92vw, 500px);
-  }
-
-  .nav {
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .stats-row {
-    grid-template-columns: 1fr;
-  }
-
-  .media-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .video-copy strong {
-    font-size: 1.8rem;
+    transform: scale(0.86);
   }
 }
